@@ -1,0 +1,131 @@
+﻿@model BaseDatosFisica.Models.ParaLasVistas.TestCurso_Pregunta
+
+
+@{
+    ViewBag.Title = "Comienzo";
+}
+
+
+<script type="text/javascript">
+
+    var respuesta = -1;
+
+    function hola() {
+
+        document.write("OK");
+    }
+
+    function cambie(check) {
+       
+        respuesta = parseInt(check.id);
+        var checks = document.getElementsByTagName('input');
+        for (var i = 0; i < checks.length; i++) {
+            if (checks[i].type != "checkbox")
+                continue;
+
+            if (checks[i].id != check.id)
+                checks[i].checked = false;
+
+        }
+        
+    }
+
+</script>
+
+<h2 class="text-success">Test @Model.testCurso.Test.Nombre</h2>
+
+   <table class="table" id="contenedor">
+       <tr>
+           
+           <th>
+               <div align="left">
+
+                   <div class="col-md-8"><p class="text-info">Pregunta @ViewBag.Num_pregunta</p></div>
+
+                   <div class="col-md-8"><p>@Model.pregunta.Enunciado </p></div>
+                   <div class="col-md-8">
+                       <img src="@Url.Content("~/gato.jpg")" width="300px" height="200px" />
+                   </div>
+                   <div class="col-md-8">
+                       <h2 id="tiempo" hidden="hidden" class="text-danger">Tiempo Restante: @Model.pregunta.Tiempo</h2>
+                   </div>
+                   <div class="col-md-8">
+                       <br />
+                       <br />
+                       <br />
+                       <div/>
+                      
+                   </div>
+                   </div>
+             
+               </div>
+           </th>
+
+           <th>
+               <div align="right">
+
+    @if (!Model.pregunta.Tipo)
+    {
+        <p align="center">Responde aqui</p><br />
+                        <input align="center" class="input-group" id="cajita" />
+    }
+    else
+    {
+        <div class="col-md-8" align="center">
+            <h2 align="center">Selecciona la respuesta:</h2>
+        
+
+                        <br />
+                        <br />
+       <form action=@Url.Action("Comienzo") method="post">
+
+           <div class="form-group">
+               <table>
+                   @foreach (var k in Model.pregunta.Respuestas)
+                {
+
+                       <tr>
+
+                           <td>
+                               @{string s = k.RespuestaID + " " + ViewBag.Num_pregunta + " " + Model.test.TestID;}
+                               @Html.RadioButton("i", s )
+                           </td>
+                           <td><p align="center">@k.Texto</p></td>
+
+                       </tr>
+
+                   }
+               </table>
+       </div>
+           <div class="col-md-8">
+               <div class="col-md-offset-2 col-md-10">
+                   <input type="submit" value="Siguiente" class="btn btn-default" />
+               </div>
+           </div>
+            </form>
+
+        </div>
+    }
+                  
+                       <script type="text/javascript">
+
+                       </script>
+                  
+           </th>
+
+       </tr>
+
+
+       </table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/ajax")
+
+
+}
+
+
+
+
+
+
